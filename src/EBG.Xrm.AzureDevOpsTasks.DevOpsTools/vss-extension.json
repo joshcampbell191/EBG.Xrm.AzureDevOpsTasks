@@ -1,0 +1,78 @@
+{
+  "manifestVersion": 1,
+  "id": "ebg-devops-tools",
+  "name": "EBG DevOps Tools",
+  "version": "1.0.0",
+  "publisher": "JoshuaCampbell",
+  "targets": [
+    {
+      "id": "Microsoft.VisualStudio.Services"
+    }
+  ],
+  "description": "Tasks for automating ALM tasks of Dynamics 365 CE/CDS/PowerApps Solutions",
+  "categories": [
+    "Azure Pipelines"
+  ],
+  "public": true,
+  "galleryFlags": [
+    "Preview"
+  ],
+  "tags": [
+    "Customer Engagement",
+    "CDS",
+    "CRM",
+    "CRM 365",
+    "EBG",
+    "Dynamics",
+    "Dynamics 365",
+    "Early Bound Generator",
+    "PowerApps"
+  ],
+  "icons": {
+    "default": "icon_128x128.png"
+  },
+  "screenshots": [
+  ],
+  "content": {
+    "details": {
+      "path": "overview.md"
+    },
+    "license": {
+      "path": "license.txt"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "uri": "https://github.com/joshcampbell191/EBG.Xrm.AzureDevOpsTasks"
+  },
+  "files": [
+    {
+      "path": "Tasks/EBGToolInstaller"
+    },
+    {
+      "path": "Tasks/EBGEarlyBoundGenerator"
+    }
+  ],
+  "contributions": [
+    {
+      "id": "EBGToolInstaller",
+      "type": "ms.vss-distributed-task.task",
+      "targets": [
+        "ms.vss-distributed-task.tasks"
+      ],
+      "properties": {
+        "name": "Tasks/EBGToolInstaller"
+      }
+    },
+    {
+      "id": "EBGEarlyBoundGenerator",
+      "type": "ms.vss-distributed-task.task",
+      "targets": [
+        "ms.vss-distributed-task.tasks"
+      ],
+      "properties": {
+        "name": "Tasks/EBGEarlyBoundGenerator"
+      }
+    }
+  ]
+}
