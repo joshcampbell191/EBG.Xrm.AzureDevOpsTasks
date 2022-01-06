@@ -70,7 +70,6 @@ namespace EBG.Xrm.PowerShell.Cmdlets
             var relativePath = Path.Combine("DLaB.EarlyBoundGenerator", "CrmSvcUtil.exe");
             var rootPath = Path.GetDirectoryName(Path.GetFullPath(SettingsPath));
 
-
             Logger.LogVerbose("Overriding configuration properties");
             earlyBoundGeneratorConfigType.GetProperty("ConnectionString", BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty).SetValue(configuration, ConnectionString);
             earlyBoundGeneratorConfigType.GetProperty("CrmSvcUtilRelativeRootPath", BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty).SetValue(configuration, relativeRootPath);
@@ -90,16 +89,11 @@ namespace EBG.Xrm.PowerShell.Cmdlets
             Logger.LogVerbose("Getting OnLog event");
             var onLog = loggerType.GetEvent("OnLog");
 
-            Logger.LogVerbose("Binding OnLog event handler");
-            onLog.AddEventHandler(logger, (Action<object>)(logMessageInfo =>
-            {
-                var detail = logMessageInfo.GetType()
-                    .GetProperty("Detail", BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty)
-                    .GetValue(logMessageInfo)
-                    .ToString();
+            var method = this.GetType().GetMethod(nameof(OnLogHandler), BindingFlags.NonPublic | BindingFlags.Instance);
+            var handler = Delegate.CreateDelegate(onLog.EventHandlerType, this, method);
 
-                Logger.LogInformation(detail);
-            }));
+            Logger.LogVerbose("Binding OnLog event handler");
+            onLog.AddEventHandler(logger, handler);
 
             switch (CreationType)
             {
@@ -124,6 +118,16 @@ namespace EBG.Xrm.PowerShell.Cmdlets
             }
 
             Logger.LogInformation("Early bound generation completed");
+        }
+
+        private void OnLogHandler(object logMessageInfo)
+        {
+            var detail = logMessageInfo.GetType()
+                .GetProperty("Detail", BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty)
+                .GetValue(logMessageInfo)
+                .ToString();
+
+            Logger.LogInformation(detail);
         }
     }
 }
