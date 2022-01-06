@@ -87,7 +87,7 @@ namespace EBG.Xrm.PowerShell.Cmdlets
             var logger = loggerType.GetField("Instance", BindingFlags.Public | BindingFlags.Static).GetValue(null);
 
             Logger.LogVerbose("Getting OnLog event");
-            var onLog = loggerType.GetEvent("OnLog");
+            var onLog = loggerType.GetEvent("OnLog", BindingFlags.Public | BindingFlags.Instance);
 
             var method = this.GetType().GetMethod(nameof(OnLogHandler), BindingFlags.NonPublic | BindingFlags.Instance);
             var handler = Delegate.CreateDelegate(onLog.EventHandlerType, this, method);
@@ -122,12 +122,12 @@ namespace EBG.Xrm.PowerShell.Cmdlets
 
         private void OnLogHandler(object logMessageInfo)
         {
-            var detail = logMessageInfo.GetType()
-                .GetProperty("Detail", BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty)
+            var modalMessage = logMessageInfo.GetType()
+                .GetProperty("ModalMessage", BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty)
                 .GetValue(logMessageInfo)
                 .ToString();
 
-            Logger.LogInformation(detail);
+            Logger.LogInformation(modalMessage);
         }
     }
 }
