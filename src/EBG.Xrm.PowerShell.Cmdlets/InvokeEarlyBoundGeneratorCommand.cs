@@ -124,10 +124,13 @@ namespace EBG.Xrm.PowerShell.Cmdlets
         {
             var modalMessage = logMessageInfo.GetType()
                 .GetProperty("ModalMessage", BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty)
-                .GetValue(logMessageInfo)
-                .ToString();
+                .GetValue(logMessageInfo);
 
-            Logger.LogInformation(modalMessage);
+            var detail = logMessageInfo.GetType()
+                .GetProperty("Detail", BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty)
+                .GetValue(logMessageInfo);
+
+            Logger.LogInformation($"{modalMessage ?? detail}");
         }
     }
 }
