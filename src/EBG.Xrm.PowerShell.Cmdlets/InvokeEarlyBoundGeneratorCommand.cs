@@ -85,7 +85,7 @@ namespace EBG.Xrm.PowerShell.Cmdlets
 
             Logger.LogVerbose("Getting DLaB.Log.Logger type");
             var loggerType = assembly.GetType("DLaB.Log.Logger");
-            var logger = loggerType.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static).GetValue(null);
+            var logger = loggerType.GetField("Instance", BindingFlags.Public | BindingFlags.Static).GetValue(null);
 
             Logger.LogVerbose("Getting OnLog event");
             var onLog = loggerType.GetEvent("OnLog");
