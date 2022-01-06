@@ -130,7 +130,12 @@ namespace EBG.Xrm.PowerShell.Cmdlets
                 .GetProperty("Detail", BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty)
                 .GetValue(logMessageInfo);
 
-            Logger.LogVerbose($"{modalMessage ?? detail}");
+            var message = detail;
+
+            if (modalMessage != null)
+                message = $"{modalMessage} - {detail}";
+
+            Logger.LogVerbose($"{message}");
         }
     }
 }
