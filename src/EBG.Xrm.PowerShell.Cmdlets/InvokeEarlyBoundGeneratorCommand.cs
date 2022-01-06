@@ -37,7 +37,7 @@ namespace EBG.Xrm.PowerShell.Cmdlets
         {
             base.ProcessRecord();
 
-            Logger.LogInformation(string.Format("Invoking the early bound generator"));
+            Logger.LogInformation("Invoking the early bound generator");
 
             Logger.LogVerbose($"SettingsPath: {SettingsPath}");
             Logger.LogVerbose($"CreationType: {CreationType}");
@@ -70,6 +70,8 @@ namespace EBG.Xrm.PowerShell.Cmdlets
             var relativePath = Path.Combine("DLaB.EarlyBoundGenerator", "CrmSvcUtil.exe");
             var rootPath = Path.GetDirectoryName(Path.GetFullPath(SettingsPath));
 
+
+            Logger.LogVerbose("Overriding configuration properties");
             earlyBoundGeneratorConfigType.GetProperty("ConnectionString", BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty).SetValue(configuration, ConnectionString);
             earlyBoundGeneratorConfigType.GetProperty("CrmSvcUtilRelativeRootPath", BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty).SetValue(configuration, relativeRootPath);
             earlyBoundGeneratorConfigType.GetProperty("CrmSvcUtilRelativePath", BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty).SetValue(configuration, relativePath);
@@ -77,13 +79,18 @@ namespace EBG.Xrm.PowerShell.Cmdlets
             earlyBoundGeneratorConfigType.GetProperty("SupportsActions", BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty).SetValue(configuration, true);
             earlyBoundGeneratorConfigType.GetProperty("UseConnectionString", BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty).SetValue(configuration, true);
 
+            Logger.LogVerbose("Getting DLaB.EarlyBoundGenerator.Logic type");
             var logicType = assembly.GetType("DLaB.EarlyBoundGenerator.Logic");
             var logic = Activator.CreateInstance(logicType, configuration);
 
+            Logger.LogVerbose("Getting DLaB.Log.Logger type");
             var loggerType = assembly.GetType("DLaB.Log.Logger");
             var logger = loggerType.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static).GetValue(null);
 
+            Logger.LogVerbose("Getting OnLog event");
             var onLog = loggerType.GetEvent("OnLog");
+
+            Logger.LogVerbose("Binding OnLog event handler");
             onLog.AddEventHandler(logger, (Action<object>)(logMessageInfo =>
             {
                 var detail = logMessageInfo.GetType()
@@ -97,15 +104,19 @@ namespace EBG.Xrm.PowerShell.Cmdlets
             switch (CreationType)
             {
                 case "all":
+                    Logger.LogVerbose("Invoking ExecuteAll");
                     logicType.GetMethod("ExecuteAll", BindingFlags.Public | BindingFlags.Instance).Invoke(logic, null);
                     break;
                 case "actions":
+                    Logger.LogVerbose("Invoking CreateActions");
                     logicType.GetMethod("CreateActions", BindingFlags.Public | BindingFlags.Instance).Invoke(logic, null);
                     break;
                 case "entities":
+                    Logger.LogVerbose("Invoking CreateEntities");
                     logicType.GetMethod("CreateEntities", BindingFlags.Public | BindingFlags.Instance).Invoke(logic, null);
                     break;
                 case "optionsets":
+                    Logger.LogVerbose("Invoking CreateOptionSets");
                     logicType.GetMethod("CreateOptionSets", BindingFlags.Public | BindingFlags.Instance).Invoke(logic, null);
                     break;
                 default:
