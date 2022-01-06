@@ -36,7 +36,7 @@ namespace EBG.Xrm.PowerShell.Cmdlets
             string message = (args.Length > 0) ? string.Format(format, args) : format;
             ErrorRecord error = new ErrorRecord(
                 new Exception(message),
-                "XrmCIFramework", ErrorCategory.WriteError, null);
+                "EBG.Xrm.AzureDevOpsTasks", ErrorCategory.WriteError, null);
             XrmCmdlet.WriteError(error);
         }
 
@@ -49,7 +49,7 @@ namespace EBG.Xrm.PowerShell.Cmdlets
             }
             else
             {
-                XrmCmdlet.WriteInformation(message, new string[] { "XrmCIFramework" });
+                XrmCmdlet.WriteInformation(message, new string[] { "EBG.Xrm.AzureDevOpsTasks" });
             }
         }
 

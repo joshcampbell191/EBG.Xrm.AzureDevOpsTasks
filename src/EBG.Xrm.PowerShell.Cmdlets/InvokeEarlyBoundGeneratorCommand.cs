@@ -80,7 +80,21 @@ namespace EBG.Xrm.PowerShell.Cmdlets
             var logicType = assembly.GetType("DLaB.EarlyBoundGenerator.Logic");
             var logic = Activator.CreateInstance(logicType, configuration);
 
-            switch(CreationType)
+            var loggerType = assembly.GetType("DLaB.Log.Logger");
+            var logger = loggerType.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static).GetValue(null);
+
+            var onLog = loggerType.GetEvent("OnLog");
+            onLog.AddEventHandler(logger, (Action<object>)(logMessageInfo =>
+            {
+                var detail = logMessageInfo.GetType()
+                    .GetProperty("Detail", BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty)
+                    .GetValue(logMessageInfo)
+                    .ToString();
+
+                Logger.LogInformation(detail);
+            }));
+
+            switch (CreationType)
             {
                 case "all":
                     logicType.GetMethod("ExecuteAll", BindingFlags.Public | BindingFlags.Instance).Invoke(logic, null);
