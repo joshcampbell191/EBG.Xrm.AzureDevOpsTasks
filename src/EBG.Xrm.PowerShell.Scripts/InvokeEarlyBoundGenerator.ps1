@@ -6,6 +6,7 @@ param(
 	[string]$CrmConnectionString,
 	[string]$SettingsPath,
 	[string]$CreationType,
+	[bool]$ExecuteAsync,
 	[string]$EarlyBoundGeneratorApiPath
 )
 
@@ -17,6 +18,7 @@ Write-Verbose 'Entering InvokeEarlyBoundGenerator.ps1' -Verbose
 Write-Verbose "CrmConnectionString = $CrmConnectionString"
 Write-Verbose "SettingsPath = $SettingsPath"
 Write-Verbose "CreationType = $CreationType"
+Write-Verbose "ExecuteAsync = $ExecuteAsync"
 Write-Verbose "EarlyBoundGeneratorApiPath = $EarlyBoundGeneratorApiPath"
 
 #Script Location
@@ -31,7 +33,7 @@ Write-Verbose "Imported EBGXrm"
 
 Write-Host "Invoking Early Bound Generator: $CreationType"
 
-Invoke-EarlyBoundGenerator -ConnectionString $CrmConnectionString -SettingsPath $SettingsPath -CreationType $CreationType -EarlyBoundGeneratorApiPath $EarlyBoundGeneratorApiPath
+Invoke-EarlyBoundGenerator -ConnectionString $CrmConnectionString -SettingsPath $SettingsPath -CreationType $CreationType -ExecuteAsync $ExecuteAsync -EarlyBoundGeneratorApiPath $EarlyBoundGeneratorApiPath
 
 Write-Host "Invoked Early Bound Generator"
 
