@@ -55,7 +55,7 @@
       "name": "executeAsync",
       "type": "boolean",
       "label": "Execute Async",
-      "defaultValue": false,
+      "defaultValue": "false",
       "helpMarkDown": "Executes tasks asynchronously. Note: When set to true, logging from the Early Bound Generator will be disabled.",
       "visibleRule": "creationType = all"
     }

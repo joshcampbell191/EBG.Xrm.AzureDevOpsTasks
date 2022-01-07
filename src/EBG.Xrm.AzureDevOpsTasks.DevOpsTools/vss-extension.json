@@ -2,7 +2,7 @@
   "manifestVersion": 1,
   "id": "ebg-devops-tools",
   "name": "EBG DevOps Tools",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "publisher": "JoshuaCampbell",
   "targets": [
     {
