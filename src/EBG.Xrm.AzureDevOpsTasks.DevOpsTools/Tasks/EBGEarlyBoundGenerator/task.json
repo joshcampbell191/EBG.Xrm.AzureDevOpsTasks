@@ -48,7 +48,16 @@
         "entities": "Entities",
         "optionsets": "Option Sets"
       },
+      "required": true,
       "helpMarkDown": "Type of Early Bound Xrm classes to generate."
+    },
+    {
+      "name": "executeAsync",
+      "type": "boolean",
+      "label": "Execute Async",
+      "defaultValue": "false",
+      "helpMarkDown": "Executes tasks asynchronously. Note: When set to true, logging from the Early Bound Generator will be disabled.",
+      "visibleRule": "creationType = all"
     }
   ],
   "execution": {
