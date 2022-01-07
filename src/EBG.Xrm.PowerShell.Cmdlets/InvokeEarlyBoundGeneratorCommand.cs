@@ -77,12 +77,12 @@ namespace EBG.Xrm.PowerShell.Cmdlets
             var relativePath = Path.Combine("DLaB.EarlyBoundGenerator", "CrmSvcUtil.exe");
             var rootPath = Path.GetDirectoryName(Path.GetFullPath(SettingsPath));
 
-            earlyBoundGeneratorConfigType.GetProperty("ConnectionString", BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty).SetValue(configuration, ConnectionString);
-            earlyBoundGeneratorConfigType.GetProperty("CrmSvcUtilRelativeRootPath", BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty).SetValue(configuration, relativeRootPath);
-            earlyBoundGeneratorConfigType.GetProperty("CrmSvcUtilRelativePath", BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty).SetValue(configuration, relativePath);
-            earlyBoundGeneratorConfigType.GetProperty("RootPath", BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty).SetValue(configuration, rootPath);
-            earlyBoundGeneratorConfigType.GetProperty("SupportsActions", BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty).SetValue(configuration, true);
-            earlyBoundGeneratorConfigType.GetProperty("UseConnectionString", BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty).SetValue(configuration, true);
+            earlyBoundGeneratorConfigType.GetProperty("ConnectionString", BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty)?.SetValue(configuration, ConnectionString);
+            earlyBoundGeneratorConfigType.GetProperty("CrmSvcUtilRelativeRootPath", BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty)?.SetValue(configuration, relativeRootPath);
+            earlyBoundGeneratorConfigType.GetProperty("CrmSvcUtilRelativePath", BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty)?.SetValue(configuration, relativePath);
+            earlyBoundGeneratorConfigType.GetProperty("RootPath", BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty)?.SetValue(configuration, rootPath);
+            earlyBoundGeneratorConfigType.GetProperty("SupportsActions", BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty)?.SetValue(configuration, true);
+            earlyBoundGeneratorConfigType.GetProperty("UseConnectionString", BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty)?.SetValue(configuration, true);
 
             if (!ExecuteAsync)
             {
@@ -134,9 +134,9 @@ namespace EBG.Xrm.PowerShell.Cmdlets
             }
             else
             {
-                InvokeMethod(logic.GetType(), "CreateActions", BindingFlags.Public | BindingFlags.Instance, logic);
-                InvokeMethod(logic.GetType(), "CreateEntities", BindingFlags.Public | BindingFlags.Instance, logic);
-                InvokeMethod(logic.GetType(), "CreateOptionSets", BindingFlags.Public | BindingFlags.Instance, logic);
+                CreateActions(logic);
+                CreateEntities(logic);
+                CreateOptionSets(logic);
             }
         }
 
