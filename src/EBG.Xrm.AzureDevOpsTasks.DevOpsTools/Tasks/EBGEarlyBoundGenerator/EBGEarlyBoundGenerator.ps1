@@ -10,7 +10,7 @@ Write-Verbose 'Entering EBGEarlyBoundGenerator.ps1'
 $crmConnectionString = Get-VstsInput -Name crmConnectionString -Require
 $settingsPath = Get-VstsInput -Name settingsPath -Require
 $creationType = Get-VstsInput -Name creationType
-$executeAsync = Get-VstsInput -Name executeAsync
+$executeAsync = Get-VstsInput -Name executeAsync -AsBool
 
 #EBG Tools
 $ebgToolsPath = $env:EBG_Tools_Path
