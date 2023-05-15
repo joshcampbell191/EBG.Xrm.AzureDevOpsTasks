@@ -94,7 +94,7 @@
       "label": "DLaB.Xrm.EarlyBoundGenerator.Api - Version (Nuget)",
       "defaultValue": "",
       "required": false,
-      "helpMarkDown": "Specify a version to override the default version: [1.2022.1.4](https://www.nuget.org/packages/DLaB.Xrm.EarlyBoundGenerator.Api/1.2022.1.4) Type latest to use the latest version available",
+      "helpMarkDown": "Specify a version to override the default version: [1.2022.9.22](https://www.nuget.org/packages/DLaB.Xrm.EarlyBoundGenerator.Api/1.2022.9.22) Type latest to use the latest version available",
       "groupName": "tools"
     }
   ],
